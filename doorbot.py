@@ -17,14 +17,22 @@ OAUTH_TOKEN = '2835817897-EJU8lEN2qv4cLq9CqtCqixF9y2G0PCfwEGDxpZl'
 OAUTH_TOKEN_SECRET = 'WdcBJd1oBPjXTrmoIaL5fH29P0EiwArF8ucYQAXWflyvC'
 
 # Setup callbacks from Twython Streamer
-#
+#turnn surveilenace on or off here.
 class BlinkyStreamer(TwythonStreamer):
         def on_success(self, data):
-                if 'text' in data:
-                        print data['text'].encode('utf-8')
+                if 'text' in data:						#case 1
+                    print data['text'].encode('utf-8')
+ 				if 'no' in data:						#case 2
+ 					print 'no'
  			print '-'
-			ser.write('a')
-			
+			ser.write('a') # turn on surveliance here
+
+		def on_error(self, status_code, data):
+        	print status_code
+        # Want to stop trying to get data because of the error?
+        # Uncomment the next line!
+        # self.disconnect()	
+
 
 # Setup GPIO as output
 GPIO.setmode(GPIO.BOARD)
@@ -37,3 +45,11 @@ try:
         stream.statuses.filter(track=TERMS)
 except KeyboardInterrupt:
         GPIO.cleanup()
+
+#for posting from your account
+auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
+auth.set_access_token(ACCESS_KEY, ACCESS_SECRET)
+api = tweepy.API(auth)
+ 
+    api.update_status("i wana say X @abc")
+
