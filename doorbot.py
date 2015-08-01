@@ -1,5 +1,4 @@
 import time
-import RPi.GPIO as GPIO
 import serial
 from twython import TwythonStreamer
 
